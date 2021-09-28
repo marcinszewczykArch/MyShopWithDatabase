@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <header id="head" class="alt" th:include="STYLESHEETS :: stylesheet" />
+    <title>PANEL ADMINA - DODAJ KATEGORIĘ</title>
+</head>
+<body>
+<header id="header" class="alt" th:include="MENU :: title-menu" />
+<div id="div" class="alt" th:include="MENU_ADMIN :: admin-menu" />
+
+
+<div class="container">
+    <h1 th:text="${category.name}"></h1>
+
+    <a>Podaj nową nazwę tej kategorii</a>
+    <form th:action="@{'/admin/category/' + ${category.name} + '/update'}" method="post">
+        <p><input type="text" th:field="${editCategory.name}"></p>
+        <p><input type="submit" value="ZAKTUALIZUJ" /></p>
+    </form>
+
+    <h1>USUŃ KATEGORIĘ - DODAĆ TAKI BUTTON</h1>
+
+    <a>TA KATEGORIA OBEJMUJE NASTĘPUJĄCE PRODUKTY:</a>
+    <a th:each="product: ${productsByCategory}">
+        <ul th:text="${product.name}"></ul>
+    </a>
+
+</div>
+</body>
+</html>

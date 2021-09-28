@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <header id="head" class="alt" th:include="STYLESHEETS :: stylesheet" />
+    <title>PANEL ADMINA - DODAJ PRODUKT</title>
+</head>
+<body>
+    <header id="header" class="alt" th:include="MENU :: title-menu" />
+    <div id="div" class="alt" th:include="MENU_ADMIN :: admin-menu" />
+
+    <div class="container">
+        <form th:action="@{'/admin/add_product/' + ${newProduct.name}}" method="post">
+
+            <p><input type="text" th:field="${newProduct.name}"></p>
+
+            <p><textarea th:field="${newProduct.description}"></textarea></p>
+
+            <p><input type="number" step="0.01" min="0" th:field="${newProduct.price}">zł</p>
+
+            <a th:each="category: ${categories}">
+                <input type="radio" th:id="${category.name}" name="category" th:field="${newProduct.category}" th:value="${category.name}" required>
+                <label th:for="${category.name}" th:text="${category.name}"></label>
+            </a>
+
+            <p><input type="submit" value="DODAJ PRODUKT" /></p>
+        </form>
+    </div>
+</body>
+</html>

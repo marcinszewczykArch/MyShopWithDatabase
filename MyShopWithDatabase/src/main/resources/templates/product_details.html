@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <header id="head" class="alt" th:include="STYLESHEETS :: stylesheet" />
+        <title th:text="${product.name}"> - szczegóły produktu</title>
+</head>
+<body>
+    <header id="header" class="alt" th:include="MENU :: title-menu" />
+
+    <div id="div" class="alt" th:include="MENU_CATEGORIES :: category-menu" />
+
+    <div class="container">
+        <h1 th:text="${product.name}"> - szczegóły</h1>
+        <ul>
+            <li>CENA:   <span th:text="${product.price}"></span> zł </li>
+            <li>OPIS:   <span th:text="${product.description}"></span></li>
+            <li>KATEGORIA:   <span th:text="${product.category.name}"></span></li>
+        </ul>
+
+        <h2>zamówienie</h2>
+        <form th:action="@{'/products/list/' + ${product.name} + '/addedToCart'}" method="post">
+            <p><input type="number" step="1" min="0" th:field="${addedItem.quantity}"> sztuk </p>
+            <p><input type="submit" value="DODAJ DO KOSZYKA"></p>
+        </form>
+
+    </div>
+</body>
+</html>

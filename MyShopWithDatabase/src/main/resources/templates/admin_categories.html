@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <header id="head" class="alt" th:include="STYLESHEETS :: stylesheet" />
+    <title>PANEL ADMINA - EDYTUJ KATEGORIE</title>
+</head>
+<body>
+    <header id="header" class="alt" th:include="MENU :: title-menu" />
+    <div id="div" class="alt" th:include="MENU_ADMIN :: admin-menu" />
+
+    <div class="container">
+        <ul th:each="category: ${categories}">
+            <a th:href="@{'/admin/category/' + ${category.name} + '/edit'}"}><h2 th:text="${category.name}"></h2></a>
+        </ul>
+    </div>
+</body>
+</html>

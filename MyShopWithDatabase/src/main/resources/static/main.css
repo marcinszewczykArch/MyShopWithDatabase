@@ -1,0 +1,127 @@
+body {
+    font-family: 'Hind Siliguri', sans-serif;
+    font-weight: 200;
+}
+
+/* max szerokość kolumny 1200px i wyśrodkowanie */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/*----------------------------------------------------------------------------------------------------*/
+
+/* flexbox - kafelki mają zajmować tyle samo miejsca */
+.menu_buttons > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap; /* dodane zawijanie */
+}
+
+/* kafelki mają wypełniać całą przestrzeń i być lekko przezroczyste */
+.menu_buttons > ul > li {
+    flex-grow: 1;
+    padding: 0.0rem;
+    font-weight: 500;
+    border: 2px solid;
+    color: white;
+    opacity: 0.8;
+}
+
+/* po najechaniu na kafelek usuwamy przezroczystość */
+.menu_buttons > ul > li:hover {
+    opacity: 1;
+}
+
+/* wyśrodkowanie tekstu na kafelkach i zmiana koloru linków */
+.menu_buttons > ul > li > a {
+    color: inherit;
+    display: block;
+    text-align: center;
+
+}
+
+/* kolor kafelków */
+.menu_buttons > ul > li:nth-child(4n) {
+    background-color: #FF2D55;
+}
+.menu_buttons > ul > li:nth-child(4n+1) {
+    background-color: #5856D6;
+}
+.menu_buttons > ul > li:nth-child(4n+2) {
+    background-color: #FF9500;
+}
+.menu_buttons > ul > li:nth-child(4n+3) {
+    background-color: #288a1f;
+}
+
+/*----------------------------------------------------------------------------------------------------*/
+
+/* flexbox - kafelki mają zajmować tyle samo miejsca */
+.menu_buttons_main > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap; /* dodane zawijanie */
+}
+
+/* kafelki mają wypełniać całą przestrzeń i być lekko przezroczyste */
+.menu_buttons_main > ul > li {
+    flex-grow: 1;
+    padding: 0.5rem;
+    font-weight: 500;
+    border: 2px solid;
+    color: white;
+    opacity: 0.8;
+}
+
+/* po najechaniu na kafelek usuwamy przezroczystość */
+.menu_buttons_main > ul > li:hover {
+    opacity: 1;
+}
+
+/* wyśrodkowanie tekstu na kafelkach i zmiana koloru linków */
+.menu_buttons_main > ul > li > a {
+    color: inherit;
+    display: block;
+    text-align: center;
+
+}
+
+/* kolor kafelków */
+.menu_buttons_main > ul  {
+    background-color: rgba(31, 31, 31, 0.9);
+}
+
+/*----------------------------------------------------------------------------------------------------*/
+
+/* ramka i odstępy */
+.apartment {
+    border: 1px solid #BDBDBD;
+    border-radius: 4px;
+    margin-top: 10px;
+    padding: 16px;
+}
+
+.apartment-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.apartment-details {
+
+    color: #757575;
+    font-size: 0.8rem;
+}
+
+.apartment-image {
+    vertical-align: top;
+}

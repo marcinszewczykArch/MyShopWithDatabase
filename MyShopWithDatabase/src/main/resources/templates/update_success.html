@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <header id="head" class="alt" th:include="STYLESHEETS :: stylesheet" />
+    <meta charset="UTF-8" />
+    <title th:text="${editProduct.name} + ' - podsumowanie edycji'"></title>
+</head>
+<body>
+    <header id="header" class="alt" th:include="MENU :: title-menu" />
+    <div class="container">
+        <s th:text="${product.name}"></s>
+        <h1 th:text="${editProduct.name}"></h1>
+        <ul>
+            <li>CENA:   <span th:text="${editProduct.price}"></span> zł <s th:text="${product.price}"></s></li>
+            <li>OPIS:   <span th:text="${editProduct.description}"></span> <s th:text="${product.description}"></s></li>
+            <li>KATEGORIA:   <span th:text="${editProduct.category.name}"></span> <s th:text="${product.category.name}"></s></li>
+        </ul>
+
+    <form th:action="@{'/products/list/' + ${product.name} + '/update/confirmed'}" method="post">
+        <p><input type="submit" value="ZATWIERDŹ ZMIANY" /></p>
+    </form>
+    </div>
+</body>
+</html>

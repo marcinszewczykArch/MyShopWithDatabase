@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <header id="head" class="alt" th:include="STYLESHEETS :: stylesheet" />
+    <title>PANEL ADMINA - EDYTUJ PRODUKT</title>
+</head>
+<body>
+    <header id="header" class="alt" th:include="MENU :: title-menu" />
+    <div id="div" class="alt" th:include="MENU_ADMIN :: admin-menu" />
+
+    <div class="container">
+        <ul th:each="product: ${products}">
+            <a th:href="@{'/products/list/' + ${product.name} + '/edit'}"}><h2 th:text="${product.name}"></h2></a>
+        </ul>
+    </div>
+</body>
+</html>

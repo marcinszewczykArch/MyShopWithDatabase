@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <header id="head" class="alt" th:include="STYLESHEETS :: stylesheet" />
+    <meta charset="UTF-8" />
+    <title th:text="${product.name} + ' - edycja'"></title>
+</head>
+<body>
+    <header id="header" class="alt" th:include="MENU :: title-menu" />
+    <div id="div" class="alt" th:include="MENU_ADMIN :: admin-menu" />
+
+    <div class="container">
+        <h1 th:text="${product.name}"></h1>
+        <ul>
+            <li>CENA:   <span th:text="${product.price}"></span> zł </li>
+            <li>OPIS:   <span th:text="${product.description}"></span></li>
+            <li>KATEGORIA:   <span th:text="${product.category.name}"></span></li>
+        </ul>
+
+        <form th:action="@{'/products/list/' + ${product.name} + '/update'}" method="post">
+            <p><input type="text" th:field="${editProduct.name}"></p>
+
+            <p><textarea th:field="${editProduct.description}"></textarea></p>
+
+            <p><input type="number" step="0.01" min="0" th:field="${editProduct.price}">zł</p>
+
+            <a th:each="category: ${categories}">
+                <input type="radio" th:id="${category.name}" name="category" th:field="${editProduct.category}" th:value="${category.name}">
+                <label th:for="${category.name}" th:text="${category.name}"></label>
+            </a>
+
+            <p><input type="submit" value="UPDATE" /></p>
+        </form>
+
+        <h1>USUŃ PRODUKT - DODAĆ TAKI BUTTON</h1>
+
+    </div>
+</body>
+</html>
