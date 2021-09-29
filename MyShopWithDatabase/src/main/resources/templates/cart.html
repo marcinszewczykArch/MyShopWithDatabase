@@ -10,10 +10,10 @@
     <div id="div" class="alt" th:include="MENU_CART :: cart-menu" />
 
     <div class="container">
-        <span th:if="${cartDAO.getAllItems().size == 0}"><p>----KOSZYK JEST PUSTY----</p></span>
+        <span th:if="${cartDAO.size() == 0}"><p>----KOSZYK JEST PUSTY----</p></span>
 
 
-        <div th:each="item: ${cartDAO.getAllItems()}">
+        <div th:each="item: ${cartDAO}">
         <article class="apartment">
         <table width=100% >
                         <tr>
@@ -22,12 +22,13 @@
                                 <li>KATEGORIA:   <span th:text="${item.product.category.name}"></span></li>
                                 <li>CENA JEDNOSTKOWA:   <span th:text="${item.product.price}"></span></li>
                                 <li>SZTUK:  <span th:text="${item.quantity}"></span></li>
+                                <li style="color: red">ORDER:  <span th:text="${item.getOrders().toString()}"></span></li>
                         <!--        <p>zmień liczbę sztuk z <span th:text="${item.quantity}"></span> na </p>-->
                         <!--        <form th:action="@{'/products/list/' + ${item.product.name} + '/addedToCart'}" method="post">-->
                         <!--            <p><input type="number" step="1" min="0" th:field="${addedItem.quantity}"> sztuk </p>-->
                         <!--            <p><input type="submit" value="ZAKTUALIZUJ"></p>-->
                         <!--        </form>-->
-                                <li>CENA WSZYTKICH SZTUK:  <span th:text="${item.getAmount()}"></span></li>
+<!--                                <li>CENA WSZYTKICH SZTUK:  <span th:text="${item.getAmount()}"></span></li>-->
                             </td>
                         <tr>
         </table>
@@ -36,15 +37,15 @@
 
         <br><br>
 
-        <p>CENA TOTAL:  <span th:text="${cartDAO.getTotal()}"></span></p>
-        <p>LICZBA ZAMÓWIONYCH PRODUKTÓW:<span th:text="${cartDAO.getTotalQuantity()}"></span></p>
-        <span th:if="${cartDAO.getTotalQuantity() >= 10}">
-                    <p>CENA TOTAL PO UWZGLĘDNIENIU ZNIŻKI 10%:  <span th:text="${cartDAO.getDiscountFor10ProductsOrMore()}"></span>
-                    </p>
-        </span>
-        <span th:if="${cartDAO.getTotalQuantity() < 10}">
-                    <p>dodaj jeszcze <span th:text="10 - ${cartDAO.getTotalQuantity()}"></span> sztuk, aby uzyskać rabat 10%
-                    </p>
+<!--        <p>CENA TOTAL:  <span th:text="${cartDAO.getTotal()}"></span></p>-->
+<!--        <p>LICZBA ZAMÓWIONYCH PRODUKTÓW:<span th:text="${cartDAO.getTotalQuantity()}"></span></p>-->
+<!--        <span th:if="${cartDAO.getTotalQuantity() >= 10}">-->
+<!--                    <p>CENA TOTAL PO UWZGLĘDNIENIU ZNIŻKI 10%:  <span th:text="${cartDAO.getDiscountFor10ProductsOrMore()}"></span>-->
+<!--                    </p>-->
+<!--        </span>-->
+<!--        <span th:if="${cartDAO.getTotalQuantity() < 10}">-->
+<!--                    <p>dodaj jeszcze <span th:text="10 - ${cartDAO.getTotalQuantity()}"></span> sztuk, aby uzyskać rabat 10%-->
+<!--                    </p>-->
         </span>
 
         <br><br>

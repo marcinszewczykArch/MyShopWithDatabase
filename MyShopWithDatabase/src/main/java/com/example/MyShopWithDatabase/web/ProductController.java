@@ -1,8 +1,10 @@
 package com.example.MyShopWithDatabase.web;
 
 import com.example.MyShopWithDatabase.DAO.CartDAO;
-import com.example.MyShopWithDatabase.DAO.CategoryDAO;
-import com.example.MyShopWithDatabase.DAO.ProductDAO;
+import com.example.MyShopWithDatabase.Repository.CategoryRepository;
+import com.example.MyShopWithDatabase.Repository.ItemRepository;
+import com.example.MyShopWithDatabase.Repository.OrdersRepository;
+import com.example.MyShopWithDatabase.Repository.ProductRepository;
 import com.example.MyShopWithDatabase.model.Item;
 import com.example.MyShopWithDatabase.model.Product;
 import org.springframework.stereotype.Controller;
@@ -15,44 +17,50 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class ProductController {
 
-    private CartDAO cartDAO;
-    private ProductDAO productDAO;
-    private CategoryDAO categoryDAO;
+//    private CartDAO cartDAO;
+    private OrdersRepository ordersRepository;
+//    private ProductDAO productDAO;
+    private ProductRepository productRepository;
+//    private CategoryDAO categoryDAO;
+    private CategoryRepository categoryRepository;
+    private ItemRepository itemRepository;
+    
     Product replace;
 
-    public ProductController(CartDAO cartDAO, ProductDAO productDAO, CategoryDAO categoryDAO) {
-        this.cartDAO = cartDAO;
-        this.productDAO = productDAO;
-        this.categoryDAO = categoryDAO;
+    public ProductController(OrdersRepository ordersRepository, ProductRepository productRepository, CategoryRepository categoryRepository, ItemRepository itemRepository) {
+        this.ordersRepository = ordersRepository;
+        this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
+        this.itemRepository = itemRepository;
     }
 
     @GetMapping("/products/list")
     protected String showAllProducts(Model model) {
-        model.addAttribute("products", productDAO.all());
-        model.addAttribute("categories", categoryDAO.getAllCategories());
+        model.addAttribute("products", productRepository.findAll());
+        model.addAttribute("categories", categoryRepository.findAll());
         return "products_list";
     }
 
     @GetMapping("/products/{category}")
     protected String showProductsByCategory(@PathVariable("category") String category, Model model) {
-        model.addAttribute("products", productDAO.byCategory(category));
-        model.addAttribute("categories", categoryDAO.getAllCategories());
+        model.addAttribute("products", productRepository.findByCategory(categoryRepository.findByName(category)));
+        model.addAttribute("categories", categoryRepository.findAll());
         return "products_list";
     }
 
     @GetMapping("/products/list/{name}")
     protected String showProduct(@PathVariable("name") String name, Model model) {
-        model.addAttribute("product", productDAO.byName(name));
-        model.addAttribute("addedItem", new Item(productDAO.byName(name), 0));
-        model.addAttribute("categories", categoryDAO.getAllCategories());
+        model.addAttribute("product", productRepository.findByName(name));
+        model.addAttribute("addedItem", new Item(productRepository.findByName(name), 0));
+        model.addAttribute("categories", categoryRepository.findAll());
         return "product_details";
     }
 
     @GetMapping("/products/list/{name}/edit")
     protected String editProduct(@PathVariable("name") String name, Model model) {
-        model.addAttribute("product", productDAO.byName(name));
-        model.addAttribute("editProduct", new Product(productDAO.byName(name).getName(), productDAO.byName(name).getDescription(), productDAO.byName(name).getPrice(), productDAO.byName(name).getCategory()));
-        model.addAttribute("categories", categoryDAO.getAllCategories());
+        model.addAttribute("product", productRepository.findByName(name));
+        model.addAttribute("editProduct", new Product(productRepository.findByName(name).getName(), productRepository.findByName(name).getDescription(), productRepository.findByName(name).getPrice(), productRepository.findByName(name).getCategory()));
+        model.addAttribute("categories", categoryRepository.findAll());
         return "product_edit";
     }
 
@@ -60,8 +68,8 @@ public class ProductController {
     public String confirmChange(@ModelAttribute Product editProduct, @PathVariable("name") String name, Model model) {
         if(checkNotEmpty(editProduct)) {
             model.addAttribute("editProduct", editProduct);
-            model.addAttribute("product", productDAO.byName(name));
-            model.addAttribute("categories", categoryDAO.getAllCategories());
+            model.addAttribute("product", productRepository.findByName(name));
+            model.addAttribute("categories", categoryRepository.findAll());
             replace = new Product(editProduct.getName(), editProduct.getDescription(), editProduct.getPrice(), editProduct.getCategory());
             return "update_success";
         } else
@@ -70,32 +78,37 @@ public class ProductController {
 
     @PostMapping("/products/list/{name}/update/confirmed")
     public String inputChange(@PathVariable("name") String name, Model model) {
-        productDAO.replaceProduct(productDAO.byName(name),replace);
-        model.addAttribute("products", productDAO.all());
-        model.addAttribute("categories", categoryDAO.getAllCategories());
+//        productRepository.replaceProduct(productRepository.findByName(name),replace);
+        model.addAttribute("products", productRepository.findAll());
+        model.addAttribute("categories", categoryRepository.findAll());
         return "products_list";
     }
 
     @PostMapping("/products/list/{name}/addedToCart")
     public String addedToCart(@ModelAttribute Item addedItem, @PathVariable("name") String name, Model model) {
-            if (cartDAO.getItemByProductName(name) == null) {
-                addedItem.setProduct(productDAO.byName(name));
-                cartDAO.addItem(addedItem);
+        if (itemRepository.findByProduct(productRepository.findByName(name)) == null) {
+                addedItem.setProduct(productRepository.findByName(name)); //powinno juz być ustawione
+                addedItem.setQuantity(addedItem.getQuantity());//powinno juz być ustawione
+                addedItem.setOrders(ordersRepository.findAll().get(0));
+                itemRepository.save(addedItem);
             } else {
                 if (addedItem.getQuantity() == 0) {
-                    cartDAO.removeItem(cartDAO.getItemByProductName(name));
+                    itemRepository.delete(
+                        itemRepository.findByProduct(productRepository.findByName(name))
+                    );
                 } else {
-                    cartDAO.getItemByProductName(name).setQuantity(addedItem.getQuantity());
+                    itemRepository.findByProduct(productRepository.findByName(name)).setQuantity(addedItem.getQuantity());
+                    itemRepository.save(itemRepository.findByProduct(productRepository.findByName(name)));
                 }
             }
             model.addAttribute("addedItem", addedItem);
-            model.addAttribute("cartDAO", cartDAO);
+            model.addAttribute("cartDAO", itemRepository.findAll());
             return "redirect:/cart";//tu była zmiana z cart na redirect
     }
 
     @GetMapping("/cart")
     protected String showCart( Model model) {
-        model.addAttribute("cartDAO", cartDAO);
+        model.addAttribute("cartDAO", itemRepository.findAll());
         return "cart";
     }
     @GetMapping("/sorry")

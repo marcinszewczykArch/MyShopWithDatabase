@@ -44,6 +44,14 @@ public class MyShopWithDatabaseApplication implements CommandLineRunner {
 				"WARZYWA"));
 		categoryRepository.save(new Category(
 				"ORZECHY"));
+		categoryRepository.save(new Category(
+				"BAKALIE"));
+		categoryRepository.save(new Category(
+				"ZELKI"));
+		categoryRepository.save(new Category(
+				"SŁODYCZE"));
+		categoryRepository.save(new Category(
+				"ZUPY"));
 
 		System.out.println("---------------------------------ADD Products---------------------------------");
 		productRepository.save(new Product(
@@ -91,11 +99,11 @@ public class MyShopWithDatabaseApplication implements CommandLineRunner {
 		ordersRepository.save(order3);
 
 		System.out.println("---------------------------------CREATE Items---------------------------------");
-		Item item1 = new Item(productRepository.getById(4L), 7, order1);
-		Item item2 = new Item(productRepository.getById(5L), 2, order1);
-		Item item3 = new Item(productRepository.getById(6L), 4, order2);
-		Item item4 = new Item(productRepository.getById(7L), 11, order2);
-		Item item5 = new Item(productRepository.getById(8L), 12, order3);
+		Item item1 = new Item(productRepository.getById(8L), 7, order1);
+		Item item2 = new Item(productRepository.getById(9L), 2, order1);
+		Item item3 = new Item(productRepository.getById(10L), 4, order2);
+		Item item4 = new Item(productRepository.getById(11L), 11, order2);
+		Item item5 = new Item(productRepository.getById(12L), 12, order3);
 
 		itemRepository.save(item1);
 		itemRepository.save(item2);
@@ -107,8 +115,8 @@ public class MyShopWithDatabaseApplication implements CommandLineRunner {
 		List<Category> categories = categoryRepository.findAll();
 		categories.forEach(System.out::println);
 
-		System.out.println("---------------------------------PRINT PRODUCTS---------------------------------");
-		List<Product> products = productRepository.findAll();
+		System.out.println("---------------------------------PRINT PRODUCTS {OWOCE}---------------------------------");
+		List<Product> products = productRepository.findByCategory(categoryRepository.findByName("OWOCE"));
 		products.forEach(System.out::println);
 
 		System.out.println("---------------------------------PRINT Customers---------------------------------");
