@@ -1,6 +1,5 @@
 package com.example.MyShopWithDatabase.model;
 
-import com.example.MyShopWithDatabase.Repository.OrdersRepository;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -20,8 +19,8 @@ public class Orders {
     LocalDateTime date = LocalDateTime.now();
 
     @ManyToOne
-    @JoinColumn(name = "id_customer")
-    private Customer customer;
+    @JoinColumn(name = "id_user")
+    private AppUser appUser;
 
     @OneToMany(mappedBy="orders", fetch = FetchType.EAGER)
     @Column(name = "items")
@@ -29,8 +28,8 @@ public class Orders {
 
     public Orders() {
     }
-    public Orders(Customer customer) {
-        this.customer = customer;
+    public Orders(AppUser appUser) {
+        this.appUser = appUser;
     }
 
     public String printOrderContent(){
@@ -49,7 +48,7 @@ public class Orders {
         return "Orders{" +
                 "id=" + id +
                 ", date=" + date +
-                ", customer=" + customer.getId() +
+                ", appUser=" + appUser.getId() +
                 ", items=" + printOrderContent() +
                 '}';
     }

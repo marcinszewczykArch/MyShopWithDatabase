@@ -1,9 +1,9 @@
 package com.example.MyShopWithDatabase.Repository;
 
-import com.example.MyShopWithDatabase.model.Customer;
+import com.example.MyShopWithDatabase.model.AppUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CustomerRepository extends JpaRepository<Customer, Long> {
+public interface AppUserRepository extends JpaRepository<AppUser, Long> {
 }

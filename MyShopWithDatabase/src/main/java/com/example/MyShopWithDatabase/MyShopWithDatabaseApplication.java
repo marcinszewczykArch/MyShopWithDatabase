@@ -20,7 +20,7 @@ public class MyShopWithDatabaseApplication implements CommandLineRunner {
 	@Autowired
 	ItemRepository itemRepository;
 	@Autowired
-	CustomerRepository customerRepository;
+	AppUserRepository customerRepository;
 	@Autowired
 	OrdersRepository ordersRepository;
 
@@ -81,18 +81,21 @@ public class MyShopWithDatabaseApplication implements CommandLineRunner {
 				categoryRepository.getById(2L)));
 
 		System.out.println("---------------------------------CREATE Customers---------------------------------");
-		Customer customer1 = new Customer("Adam", "Małysz");
-		Customer customer2 = new Customer("Andrzej", "Gołota");
-		Customer customer3 = new Customer("Edyta", "Górniak");
+		AppUser customer1 = new AppUser(
+				"Marcin Szewczyk",
+				"marcin_sz",
+				"marci.szewczyk@gmail.com",
+				"admin",
+				AppUserRole.ADMIN,
+				false,
+				true);
 
 		customerRepository.save(customer1);
-		customerRepository.save(customer2);
-		customerRepository.save(customer3);
 
 		System.out.println("---------------------------------CREATE Orders---------------------------------");
 		Orders order1 = new Orders(customer1);
-		Orders order2 = new Orders(customer2);
-		Orders order3 = new Orders(customer3);
+		Orders order2 = new Orders(customer1);
+		Orders order3 = new Orders(customer1);
 
 		ordersRepository.save(order1);
 		ordersRepository.save(order2);
@@ -120,7 +123,7 @@ public class MyShopWithDatabaseApplication implements CommandLineRunner {
 		products.forEach(System.out::println);
 
 		System.out.println("---------------------------------PRINT Customers---------------------------------");
-		List<Customer> customers = customerRepository.findAll();
+		List<AppUser> customers = customerRepository.findAll();
 		customers.forEach(System.out::println);
 
 		System.out.println("---------------------------------PRINT Items---------------------------------");
